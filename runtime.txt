@@ -504,3 +504,58 @@ python-3.7.4
 # for i in range(rows):
 #   for j in range(cols):
 #     grid[i][j].save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# STREET
+
+# streetRooms = {title: Room(title=title, description=title) for title in range(100, 200)}
+
+# streetGrid = []
+# tempStreetArray = []
+# keepTrackOfStreetIndex = 109
+# # rows=10
+# # cols=10
+
+# for key, value in streetRooms.items():
+#   if keepTrackOfStreetIndex == key:
+#     keepTrackOfStreetIndex += rows
+#     tempStreetArray.append(value)
+#     streetGrid.append(tempStreetArray)
+#     tempStreetArray = []
+#   else:
+#     tempStreetArray.append(value)
+ 
+# for i in range(rows):
+#   for j in range(cols):
+#     streetGrid[i][j].save()
+
+# for i in range(rows):
+#   for j in range(cols):
+#     if i < rows - 1:
+#       streetGrid[i][j].connectRooms(streetGrid[i + 1][j], "s")
+#     if i > 0:
+#       streetGrid[i][j].connectRooms(streetGrid[i - 1][j], "n")  
+#     if j < cols - 1:
+#       streetGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
+#     if j > 0:
+#       streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")

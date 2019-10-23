@@ -3,39 +3,74 @@ from adventure.models import Player, Room
 
 Room.objects.all().delete()
 
-allRooms = {title: Room(title=title, description=title) for title in range(100)}
+# FOREST
+forestRooms = {title: Room(title=title, description=title) for title in range(100)}
 
-grid = []
-tempArray = []
+forestGrid = []
+tempForestArray = []
 keepTrackOfIndex = 9
 rows=10
 cols=10
 
-for key, value in allRooms.items():
+for key, value in forestRooms.items():
   if keepTrackOfIndex == key:
     keepTrackOfIndex += rows
-    tempArray.append(value)
-    grid.append(tempArray)
-    tempArray = []
+    tempForestArray.append(value)
+    forestGrid.append(tempForestArray)
+    tempForestArray = []
   else:
-    tempArray.append(value)
- 
+    tempForestArray.append(value)
+
 for i in range(rows):
   for j in range(cols):
-    grid[i][j].save()
+    forestGrid[i][j].save()
 
 for i in range(rows):
   for j in range(cols):
     if i < rows - 1:
-      grid[i][j].connectRooms(grid[i + 1][j], "s")
+      forestGrid[i][j].connectRooms(forestGrid[i + 1][j], "s")
     if i > 0:
-      grid[i][j].connectRooms(grid[i - 1][j], "n")  
+      forestGrid[i][j].connectRooms(forestGrid[i - 1][j], "n")  
     if j < cols - 1:
-      grid[i][j].connectRooms(grid[i][j + 1], "e")  
+      forestGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
     if j > 0:
-      grid[i][j].connectRooms(grid[i][j - 1], "w")
+      forestGrid[i][j].connectRooms(forestGrid[i][j - 1], "w")
+
+# STREET
+
+streetRooms = {title: Room(title=title, description=title) for title in range(100, 200)}
+
+streetGrid = []
+tempStreetArray = []
+keepTrackOfStreetIndex = 109
+# rows=10
+# cols=10
+
+for key, value in streetRooms.items():
+  if keepTrackOfStreetIndex == key:
+    keepTrackOfStreetIndex += rows
+    tempStreetArray.append(value)
+    streetGrid.append(tempStreetArray)
+    tempStreetArray = []
+  else:
+    tempStreetArray.append(value)
+
+for i in range(rows):
+  for j in range(cols):
+    streetGrid[i][j].save()
+
+for i in range(rows):
+  for j in range(cols):
+    if i < rows - 1:
+      streetGrid[i][j].connectRooms(streetGrid[i + 1][j], "s")
+    if i > 0:
+      streetGrid[i][j].connectRooms(streetGrid[i - 1][j], "n")  
+    if j < cols - 1:
+      streetGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
+    if j > 0:
+      streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")
 
 players=Player.objects.all()
 for p in players:
-  p.currentRoom=grid[0][0].id
+  p.currentRoom = forestGrid[0][0].title
   p.save()
