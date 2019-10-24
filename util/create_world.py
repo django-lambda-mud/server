@@ -27,14 +27,18 @@ for i in range(rows):
 
 for i in range(rows):
   for j in range(cols):
-    if i < rows - 1:
+    if i == 1 and j == 9:
       forestGrid[i][j].connectRooms(forestGrid[i + 1][j], "s")
-    if i > 0:
-      forestGrid[i][j].connectRooms(forestGrid[i - 1][j], "n")  
-    if j < cols - 1:
-      forestGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
-    if j > 0:
       forestGrid[i][j].connectRooms(forestGrid[i][j - 1], "w")
+    else:
+      if i < rows - 1:
+        forestGrid[i][j].connectRooms(forestGrid[i + 1][j], "s")
+      if i > 0:
+        forestGrid[i][j].connectRooms(forestGrid[i - 1][j], "n")  
+      if j < cols - 1:
+        forestGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
+      if j > 0:
+        forestGrid[i][j].connectRooms(forestGrid[i][j - 1], "w")
 
 # STREET
 
@@ -69,6 +73,9 @@ for i in range(rows):
       streetGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
     if j > 0:
       streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")
+
+### because we have multiple rooms and one field where you can switch between rooms we need to add this movement from
+### one map to the other
 
 players=Player.objects.all()
 for p in players:
