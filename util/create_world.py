@@ -27,7 +27,7 @@ for i in range(rows):
 
 for i in range(rows):
   for j in range(cols):
-    if i == 1 and j == 9:
+    if i == 1 and j == 9:## this is the field where you can switch from the forest map to the street map
       forestGrid[i][j].connectRooms(forestGrid[i + 1][j], "s")
       forestGrid[i][j].connectRooms(forestGrid[i][j - 1], "w")
     else:
@@ -74,8 +74,14 @@ for i in range(rows):
     if j > 0:
       streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")
 
-### because we have multiple rooms and one field where you can switch between rooms we need to add this movement from
+### because we have multiple rooms and one field where you can switch
+### between rooms we need to add this movement from
 ### one map to the other
+
+for i in range(rows):
+  for j in range(cols):
+    if i == 1 and j == 9:
+      forestGrid[i][j].connectRooms(streetGrid[0][0], "n")
 
 players=Player.objects.all()
 for p in players:
