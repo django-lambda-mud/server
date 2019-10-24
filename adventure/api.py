@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-# from pusher import Pusher
+from pusher import Pusher
 from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.models import User
@@ -10,6 +10,17 @@ import json
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+import pusher
+
+pusher = Pusher(
+  app_id='886636',
+  key='f2df1cd773bc785afe1e',
+  secret='b8c2fc4b62d6a8ab324e',
+  cluster='eu',
+  ssl=True
+)
+
+# channels_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
 
 @csrf_exempt
 @api_view(["GET"])
@@ -64,7 +75,10 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    data = json.loads(request.body)
+    print('mudroom-'+data['room'])
+    pusher.trigger('mudroom-'+data['room'], 'message', data);
+    return JsonResponse(data, safe=True, status=201)
 
 
 @csrf_exempt
@@ -87,79 +101,3 @@ def rooms(request):
     }, safe=True)
 
 
-
-
-
-#     # create Forest
-# grid = []
-# rows = 10
-# cols = 15
-
-# def createForest():
-#   for i in range(rows):
-#     currentRow = []
-#     for j in range(cols):
-#       currentRow.append(createForestRoom(i, j))
-#     grid.append(currentRow)
-
-#   for row in range(rows):
-#     for col in range(cols):
-#       addNeighbors(row, col)
-  
-#   return grid
-
-  
-
-# def createForestRoom(i, j):
-#   return {
-#     i: i,
-#     j: j,
-#     "start": i == 0 and j == 0,
-#     "neighbors": [],
-#     "treeOne":
-#       i == 0 and j == 2 or
-#       i == 0 and j == 3 or
-#       i == 0 and j == 4 or
-#       i == 1 and j == 2 or
-#       i == 2 and j == 2 or
-#       i == 1 and j == 4 or
-#       i == 2 and j == 4 or
-#       i == 0 and j == 5 or
-#       i == 0 and j == 6 or
-#       i == 2 and j == 5,
-#     "treeTwo":
-#       i == 5 and j == 10 or i == 5 and j == 11 or i == 5 and j == 12,
-#     "treeThree":
-#       i == 8 and j == 0 or
-#       i == 9 and j == 0 or
-#       i == 9 and j == 1 or
-#       i == 9 and j == 2 or
-#       i == 9 and j == 4 or
-#       i == 9 and j == 5 or
-#       i == 9 and j == 6 or
-#       i == 9 and j == 7 or
-#       i == 9 and j == 8 or
-#       i == 9 and j == 9 or
-#       i == 9 and j == 10 or
-#       i == 9 and j == 11 or
-#       i == 9 and j == 12 or
-#       i == 9 and j == 13 or
-#       i == 9 and j == 14,
-#     "grave": i == 0 and j == 8,
-#     "goldOne": i == 0 and j == 9,
-#     "toStreet": i == 0 and j == 14,
-#     "toHouse": i == 9 and j == 3
-#   }
-
-# def addNeighbors(i, j):
-#   if i < rows - 1:
-#     grid[i][j]["neighbors"].append(grid[i + 1][j])
-#   if i > 0:
-#     grid[i][j]["neighbors"].append(grid[i - 1][j])
-#   if j < cols - 1:
-#     grid[i][j]["neighbors"].append(grid[i][j + 1])
-#   if j > 0:
-#     grid[i][j]["neighbors"].append(grid[i][j - 1])
-#   return
-
-# print(createForest())
