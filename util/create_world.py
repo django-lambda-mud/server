@@ -65,14 +65,19 @@ for i in range(rows):
 
 for i in range(rows):
   for j in range(cols):
-    if i < rows - 1:
-      streetGrid[i][j].connectRooms(streetGrid[i + 1][j], "s")
-    if i > 0:
-      streetGrid[i][j].connectRooms(streetGrid[i - 1][j], "n")  
-    if j < cols - 1:
-      streetGrid[i][j].connectRooms(forestGrid[i][j + 1], "e")  
-    if j > 0:
+    if i == 8 and j == 8:# field where you can go to the Forest map
+      streetGrid[i][j].connectRooms(streetGrid[i - 1][j], "n")      
       streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")
+      streetGrid[i][j].connectRooms(streetGrid[i][j + 1], "e") 
+    else:
+      if i < rows - 1:
+        streetGrid[i][j].connectRooms(streetGrid[i + 1][j], "s")
+      if i > 0:
+        streetGrid[i][j].connectRooms(streetGrid[i - 1][j], "n")  
+      if j < cols - 1:
+        streetGrid[i][j].connectRooms(streetGrid[i][j + 1], "e")  
+      if j > 0:
+        streetGrid[i][j].connectRooms(streetGrid[i][j - 1], "w")
 
 ### because we have multiple rooms and one field where you can switch
 ### between rooms we need to add this movement from
@@ -81,7 +86,9 @@ for i in range(rows):
 for i in range(rows):
   for j in range(cols):
     if i == 1 and j == 9:
-      forestGrid[i][j].connectRooms(streetGrid[0][0], "n")
+      forestGrid[i][j].connectRooms(streetGrid[0][0], "n") # combine forest map with street map
+    if i == 8 and j == 8:
+      streetGrid[i][j].connectRooms(forestGrid[0][0], "s") # combine street map with forest map
 
 players=Player.objects.all()
 for p in players:
